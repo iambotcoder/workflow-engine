@@ -41,6 +41,77 @@ class Workflow {
         }
     }
 
+    public function addStepAtFront($step_id, $step_owner) {
+        $new_step = new Step($this->workflow_id, $step_id, $step_owner);
+        if ($this->workflow_head_node !== null) {
+            $new_step->nextStep = $this->workflow_head_node;
+            $this->workflow_head_node->previousStep = $new_step;
+        }
+        $this->workflow_head_node = $new_step;
+    }
+
+    public function addStepAtEnd($step_id, $step_owner) {
+        $this->addStep($step_id, $step_owner);
+    }
+
+    public function addStepInMiddle($position, $step_id, $step_owner) {
+        if ($position <= 1) {
+            $this->addStepAtFront($step_id, $step_owner);
+            return;
+        }
+
+        $new_step = new Step($this->workflow_id, $step_id, $step_owner);
+        $current = $this->workflow_head_node;
+        $currentPosition = 1;
+
+        while ($current !== null && $currentPosition < $position - 1) {
+            $current = $current->nextStep;
+            $currentPosition++;
+        }
+
+        if ($current === null || $current->nextStep === null) {
+            $this->addStepAtEnd($step_id, $step_owner);
+        } else {
+            $new_step->nextStep = $current->nextStep;
+            $new_step->previousStep = $current;
+            if ($current->nextStep !== null) {
+                $current->nextStep->previousStep = $new_step;
+            }
+            $current->nextStep = $new_step;
+        }
+    }
+
+    public function modifyStep($step_id, $new_step_owner) {
+        $current = $this->workflow_head_node;
+        while ($current !== null) {
+            if ($current->step_id == $step_id) {
+                $current->step_owner = $new_step_owner;
+                return;
+            }
+            $current = $current->nextStep;
+        }
+        print("\nStep with id $step_id not found.");
+    }
+
+    public function deleteStep($step_id) {
+        $current = $this->workflow_head_node;
+        while ($current !== null) {
+            if ($current->step_id == $step_id) {
+                if ($current->previousStep !== null) {
+                    $current->previousStep->nextStep = $current->nextStep;
+                } else {
+                    $this->workflow_head_node = $current->nextStep;
+                }
+                if ($current->nextStep !== null) {
+                    $current->nextStep->previousStep = $current->previousStep;
+                }
+                return;
+            }
+            $current = $current->nextStep;
+        }
+        print("\nStep with id $step_id not found.");
+    }
+
     public function display() {
         print("\nWorkflow Id : " . $this->workflow_id);
         print("\nWorkflow Name : " . $this->workflow_name);
@@ -75,7 +146,11 @@ class Process {
 
     public function displayCurrentStatus() {
         $step = $this->workflow->workflow_head_node;
-        $temp = $this->current_stage - 1; // Adjust for 0-based index
+        $temp = $this->current_stage - 1;
+        if ($temp < 0) {
+            print("\nRevoked Workflow");
+            return;
+        }
         while ($temp > 0 && $step !== null) {
             $step = $step->nextStep;
             $temp--;
@@ -102,23 +177,39 @@ class Process {
     }
 
     public function rejectStep() {
-        // Logic for rejecting a step (if any) can be added here
-        return $this->current_stage;
+        $this->current_stage--;
     }
 
     public function revokeStep() {
-        // Logic for revoking a step (if any) can be added here
-        return $this->current_stage;
+        $this->current_stage = 0;
+    }
+
+    public function resetStage() {
+        $this->current_stage = 1;
     }
 }
 
+function createWorkflow($workflowName, $workflow_id) {
+    $workflow = new Workflow($workflowName, $workflow_id);
+    return $workflow;
+}
+
 // Sample Usage
-$interWorkflow = new Workflow("Intern-WorkFlow-Subodh", 1);
-$interWorkflow->addStep(1, "Intern");
-$interWorkflow->addStep(2, "FLA");
-$interWorkflow->addStep(3, "HR");
+$interWorkflow = createWorkflow("Subodh-Intern-workflow", 1);
+$interWorkflow->addStep("st-1", "Intern");
+$interWorkflow->addStep("st-2", "FLA");
+$interWorkflow->addStep("st-3", "HR");
+// $interWorkflow->addEndStep(4);
 
 print("\nInitial Workflow Display:");
+$interWorkflow->display();
+
+$interWorkflow->addStepAtFront("st-0", "Manager");
+$interWorkflow->addStepInMiddle(3, "st-5", "Supervisor");
+$interWorkflow->modifyStep("st-2", "Team Lead");
+$interWorkflow->deleteStep(3);
+
+print("\nModified Workflow Display:");
 $interWorkflow->display();
 
 $workProcess = new Process($interWorkflow);
@@ -127,5 +218,17 @@ $workProcess->displayCurrentStatus();
 
 print("\nAccepting Step...");
 $workProcess->acceptStep();
+$workProcess->displayCurrentStatus();
+
+print("\nRejecting Step...");
+$workProcess->rejectStep();
+$workProcess->displayCurrentStatus();
+
+print("\nRevoking Step...");
+$workProcess->revokeStep();
+$workProcess->displayCurrentStatus();
+
+print("\nResetting Stage...");
+$workProcess->resetStage();
 $workProcess->displayCurrentStatus();
 ?>
