@@ -1,0 +1,49 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "c3d2b05504f3a1ba56e4e616b6db620e",
+    "packages": [
+        {
+            "name": "subodh/test-package",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "../test-package",
+                "reference": "1b4cb9b025aacd49c5ef111e13d7866c3c9e0047"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Subodh\\TestPackage\\": "Subodh/TestPackage/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "authors": [
+                {
+                    "name": "iamBot",
+                    "email": "iamBot@gmail.com"
+                }
+            ],
+            "description": "test-workflow-package",
+            "transport-options": {
+                "relative": true
+            }
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "subodh/test-package": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.2.0"
+}

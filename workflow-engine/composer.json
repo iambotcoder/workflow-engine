@@ -1,0 +1,21 @@
+{
+  "name": "subodh/workflow-engine",
+  "description": "A package for workflow management",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Subodh\\WorkflowEngine\\": "src/"
+    },
+    "files": [
+      "functions.php"
+    ]
+  },
+  "authors": [
+    {
+      "name": "iamBot",
+      "email": "iamBot@gmail.com"
+    }
+  ],
+  "require": {}
+}

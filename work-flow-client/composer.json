@@ -1,0 +1,18 @@
+{
+  "name": "subodh/workflow-client",
+  "description": "A project using the test workflow package",
+  "require": {
+    "subodh/test-package": "*"
+  },
+  "repositories": [
+    {
+      "type": "path",
+      "url": "D:/workflow-engine/test-package"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "SubodhWork\\flowClient\\": "src/"
+    }
+  }
+}

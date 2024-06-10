@@ -1,0 +1,14 @@
+{
+  "name": "test-vendor/workflow-package",
+  "description": "A package for workflow management",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "TestVendor\\WorkflowPackage\\": "src/classes"
+    },
+    "files": [
+      "functions.php"
+    ]
+  }
+}

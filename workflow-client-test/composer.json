@@ -1,0 +1,25 @@
+{
+  "name": "subodh/workflow-client-test",
+  "description": "Test the test-package",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "Subodh\\WorkflowClientTest\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "iamBot",
+      "email": "iamBot@gmail.com"
+    }
+  ],
+  "require": {
+    "subodh/test-package": "dev-master"
+  },
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../test-package"
+    }
+  ]
+}

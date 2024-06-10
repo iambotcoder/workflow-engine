@@ -1,0 +1,14 @@
+{
+  "name": "yourvendor/workflow-manager",
+  "description": "A PHP package for managing workflows.",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "YourVendor\\WorkflowManager\\": "src/"
+    }
+  },
+  "require": {},
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
+  }
+}

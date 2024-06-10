@@ -1,0 +1,37 @@
+{
+    "packages": [
+        {
+            "name": "subodh/test-package",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "../test-package",
+                "reference": "1b4cb9b025aacd49c5ef111e13d7866c3c9e0047"
+            },
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Subodh\\TestPackage\\": "Subodh/TestPackage/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "authors": [
+                {
+                    "name": "iamBot",
+                    "email": "iamBot@gmail.com"
+                }
+            ],
+            "description": "test-workflow-package",
+            "transport-options": {
+                "relative": true
+            },
+            "install-path": "../subodh/test-package"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}
