@@ -8,10 +8,14 @@ class Workflow {
     public $workflow_name;
     public $workflow_id; 
     public $workflow_head_node = null;
+    public $workflow_step_len;
+    public $workflow_description;
 
-    public function __construct($name, $workflow_id) {
+    public function __construct($name, $workflow_id,$workflow_description="") {
         $this->workflow_name = $name;
         $this->workflow_id = $workflow_id;
+        $this->workflow_step_len = 0;
+        $this->workflow_description = $workflow_description;
     }
 
     public function addStep($step_id, $step_owner) {
@@ -35,6 +39,7 @@ class Workflow {
             $current->nextStep = $new_step;
             $new_step->previousStep = $current;
         }
+        $this->workflow_step_len++;
     }
 
     public function addStepAtFront($step_id, $step_owner) {
@@ -48,6 +53,7 @@ class Workflow {
         } else {
             $this->workflow_head_node = $new_step;
         }
+        $this->workflow_step_len++;
     }
 
     public function addStepAtEnd($step_id, $step_owner) {
@@ -80,6 +86,7 @@ class Workflow {
             $current->nextStep = $new_step;
             $this->updateStepPositions();
         }
+        $this->workflow_step_len++;
     }
 
     public function modifyStep($step_id, $new_step_owner) {
@@ -107,6 +114,7 @@ class Workflow {
                     $current->nextStep->previousStep = $current->previousStep;
                 }
                 $this->updateStepPositions();
+                $this->workflow_step_len--;
                 return;
             }
             $current = $current->nextStep;
@@ -125,27 +133,39 @@ class Workflow {
     }
 
     public function display() {
-        print("\nWorkflow Id : " . $this->workflow_id);
-        print("\nWorkflow Name : " . $this->workflow_name);
+        echo "\n╔═════════════════════════════════════════════════════════════════════════╗";
+        echo "\n║                           Workflow Details                              ║";
+        echo "\n╠═════════════════════════════════════════════════════════════════════════╣";
+        printf("\n");
+        printf("║ %-20s : %-48s ║\n", "Workflow Id", $this->workflow_id);
+        printf("║ %-20s : %-48s ║\n", "Workflow Name", $this->workflow_name);
+        printf("║ %-20s : %-48s ║\n", "Workflow Length", $this->workflow_step_len);
+        printf("║ %-20s : %-48s ║\n", "Workflow Description", $this->workflow_description);
+        echo "╚═════════════════════════════════════════════════════════════════════════╝";
+    
         $step = $this->workflow_head_node;
         while ($step !== null) {
-            print("\nWorkflow Id : " . $step->workflow_id);
-            print("\nStep Id : " . $step->step_id);
-            print("\nStep Owner : " . $step->step_owner);
-            print("\nStep Owner Name: " . $step->step_owner_name);
-            print("\nStep Position: " . $step->step_position);
-            print("\nOn Success: " . ($step->onSuccess ? $step->onSuccess->step_id : "None"));
-            print("\nOn Failure: " . ($step->onFailure ? $step->onFailure->step_id : "None"));
+            echo "\n╔═════════════════════════════════════════════════════════════════════════╗";
+            echo "\n║                             Step Details                                ║";
+            echo "\n╠═════════════════════════════════════════════════════════════════════════╣";
+            printf("\n");
+            printf("║ %-20s : %-48s ║\n", "Step Id", $step->step_id);
+            printf("║ %-20s : %-48s ║\n", "Step Owner", $step->step_owner);
+            printf("║ %-20s : %-48s ║\n", "Step Owner Name", $step->step_owner_name);
+            printf("║ %-20s : %-48s ║\n", "Step Position", $step->step_position);
+            printf("║ %-20s : %-48s ║\n", "On Success", $step->onSuccess ? $step->onSuccess->step_id : "None");
+            printf("║ %-20s : %-48s ║\n", "On Failure", $step->onFailure ? $step->onFailure->step_id : "None");
             if ($step->nextStep) {
-                print("\nNext Step : " . $step->nextStep->step_id);
+                printf("║ %-20s : %-48s ║\n", "Next Step", $step->nextStep->step_id);
             }
             if ($step->previousStep) {
-                print("\nPrevious Step : " . $step->previousStep->step_id);
+                printf("║ %-20s : %-48s ║\n", "Previous Step", $step->previousStep->step_id);
             }
+            echo "╚═════════════════════════════════════════════════════════════════════════╝";
             $step = $step->nextStep;
-            horizontalLine("-");
         }
     }
+    
 }
 
 ?>

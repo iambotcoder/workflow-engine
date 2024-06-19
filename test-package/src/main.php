@@ -12,14 +12,14 @@ require_once 'functions.php';
 // print("\nEnter Workflow Id : ");
 // $workflowId = trim(fgets(STDIN));
 
-$workFlow = createWorkflow("Intern-WorkFlow", "wf1");
+// $workFlow = createWorkflow("Intern-WorkFlow", "wf1");
 
-$workFlow->addStep("st1", "Intern");
-$workFlow->addStep("st2", "FLA");
-$workFlow->addStep("st3", "SLA");
-$workFlow->addStep("st4", "HR");
+// $workFlow->addStep("st1", "Intern");
+// $workFlow->addStep("st2", "FLA");
+// $workFlow->addStep("st3", "SLA");
+// $workFlow->addStep("st4", "HR");
 
-$workFlow->display();
+// $workFlow->display();
 
 // // print("\nEnter WorkProcess Name : ");
 // // $workProcessName = trim(fgets(STDIN));
@@ -31,5 +31,27 @@ $workFlow->display();
 // $workProcess->displayCurrentStatus();
 
 // accessWorkProcess($workProcess);
+
+// manageWorkflow();
+
+
+$workFlow = createWorkflow("Intern-WorkFlow", "wf1");
+
+$workFlow->addStep("st1", "Intern");
+$workFlow->addStep("st2", "FLA");
+$workFlow->addStep("st3", "SLA");
+$workFlow->addStep("st4", "HR");
+
+
+$workFlow1 = createWorkflow("GatePass-WorkFlow", "wf2");
+
+$workFlow1->addStep("st1", "Employee");
+$workFlow1->addStep("st2", "FLA");
+$workFlow1->addStep("st3", "SLA");
+$workFlow1->addStep("st4", "Admin");
+
+// $workFlow1->display();
+// saveWorkFlow($workFlow1);
+showWorkFlow();
 
 ?>
