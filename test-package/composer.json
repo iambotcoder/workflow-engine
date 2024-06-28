@@ -16,5 +16,7 @@
       "email": "iamBot@gmail.com"
     }
   ],
-  "require": {}
+  "require": {
+    "gabordemooij/redbean": "dev-master"
+  }
 }

@@ -20,15 +20,15 @@ class Process {
     private function initializeProcessSteps() {
         $current = $this->workflow->workflow_head_node;
         while ($current !== null) {
-            if ($current->nextStep !== null) {
-                $current->onSuccess = $current->nextStep;
+            if ($current->step_next_step !== null) {
+                $current->step_on_success = $current->step_next_step;
             }
-            if ($current->previousStep !== null) {
-                $current->onFailure = $current->previousStep;
+            if ($current->step_previous_step !== null) {
+                $current->step_on_failure = $current->step_previous_step;
             }
-            print("\nEnter step owner name for step ID " . $current->step_id . " with Step owner as " . $current->step_owner . " : ");
+            print("\nEnter step owner name for step ID " . $current->step_id_ . " with Step owner as " . $current->step_owner_role . " : ");
             $current->step_owner_name = trim(fgets(STDIN));
-            $current = $current->nextStep;
+            $current = $current->step_next_step;
         }
     }
 
@@ -55,24 +55,24 @@ class Process {
             echo "\n║ Status                : Revoked Workflow                                ║";
         } else {
             while ($temp > 0 && $step !== null) {
-                $step = $step->nextStep;
+                $step = $step->step_next_step;
                 $temp--;
             }
             if ($step !== null) {
                 // Current workflow position
                 // printf("\n║ %-25s : %-43s ║", "Current Workflow Position", "");
-                printf("\n║ %-25s : %-43s ║", "Workflow Id", $step->workflow_id);
-                printf("\n║ %-25s : %-43s ║", "Step Id", $step->step_id);
-                printf("\n║ %-25s : %-43s ║", "Step Owner", $step->step_owner);
+                printf("\n║ %-25s : %-43s ║", "Workflow Id", $step->workflow_id_);
+                printf("\n║ %-25s : %-43s ║", "Step Id", $step->step_id_);
+                printf("\n║ %-25s : %-43s ║", "Step Owner", $step->step_owner_role);
                 printf("\n║ %-25s : %-43s ║", "Step Owner Name", $step->step_owner_name);
                 printf("\n║ %-25s : %-43s ║", "Step Position", $step->step_position);
-                printf("\n║ %-25s : %-43s ║", "On Success", $step->onSuccess ? $step->onSuccess->step_id : "None");
-                printf("\n║ %-25s : %-43s ║", "On Failure", $step->onFailure ? $step->onFailure->step_id : "None");
-                if ($step->nextStep) {
-                    printf("\n║ %-25s : %-43s ║", "Next Step", $step->nextStep->step_id);
+                printf("\n║ %-25s : %-43s ║", "On Success", $step->step_on_success ? $step->step_on_success->step_id_ : "None");
+                printf("\n║ %-25s : %-43s ║", "On Failure", $step->step_on_failure ? $step->step_on_failure->step_id_ : "None");
+                if ($step->step_next_step) {
+                    printf("\n║ %-25s : %-43s ║", "Next Step", $step->step_next_step->step_id_);
                 }
-                if ($step->previousStep) {
-                    printf("\n║ %-25s : %-43s ║", "Previous Step", $step->previousStep->step_id);
+                if ($step->step_previous_step) {
+                    printf("\n║ %-25s : %-43s ║", "Previous Step", $step->step_previous_step->step_id_);
                 }
                 echo "\n╚═════════════════════════════════════════════════════════════════════════╝";
             }
